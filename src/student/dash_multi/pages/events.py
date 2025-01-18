@@ -21,7 +21,7 @@ layout = dbc.Container([
         ], width=8),
         dbc.Col(children=[
             dbc.Card([
-                dbc.CardImg(src=dash.get_asset_url("logos/2022_Beijing.png"), top=True),
+                dbc.CardImg(src=dash.get_asset_url("logos/2022_Beijing.jpg"), top=True),
                 dbc.CardBody([
                     html.H4("Beijing 2022", className="card-title"),
                     html.P("Highlights of the paralympic event will go here. This will be a sentence or two.",
