@@ -1,6 +1,7 @@
 # Imports for Dash and Dash.html
-from dash import Dash, html
+from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
+from student.dash_single.charts import line_chart, bar_gender, scatter_geo, go_map, card_fig, bubble_plot
 
 # Variable that defines the meta tag for the viewport
 meta_tags = [
@@ -46,12 +47,12 @@ row_two = dbc.Row([
 ])
 
 row_three = dbc.Row([
-    dbc.Col(children=[html.Img(src=app.get_asset_url('line-chart-placeholder.png'), className="img-fluid"),], width=6),
-    dbc.Col(children=[html.Img(src=app.get_asset_url('bar-chart-placeholder.png'), className="img-fluid"),], width=6)
+    dbc.Col(children=[dcc.Graph(id="line-chart", figure=line_chart("sports")),], width=6),
+    dbc.Col(children=[dcc.Graph(id="bar_graph", figure=bar_gender("summer")),], width=6)
 ])
 
 row_four = dbc.Row([
-    dbc.Col(children=[html.Img(src=app.get_asset_url('map-placeholder.png'), className="img-fluid"),], width=8),
+    dbc.Col(children=[dcc.Graph(id="map_fig", figure=scatter_geo())], width=8),
     dbc.Col(children=[dbc.Card([
     dbc.CardImg(src=app.get_asset_url("logos/2022_Beijing.jpg"), top=True),
     dbc.CardBody([
@@ -65,14 +66,27 @@ row_four = dbc.Row([
     style={"width": "18rem"},
 )], width=4)
 ])
+
+
+row_five = dbc.Row([
+    dbc.Col(children=[dcc.Graph(id="go_map", figure=go_map())], width=8),
+    dbc.Col(children=[card_fig("Barcelona 1992", app)], id="card", width=4),
+    ])
+
+row_six = dbc.Row([
+    dbc.Col(children=[dcc.Graph(id="bubble_plot", figure=bubble_plot())], width=8),
+    ])
+    
 # Add an HTML layout to the Dash app
 app.layout = dbc.Container([
     # Add an HTML div with the text 'Hello World'
     row_one,
     row_two,
     row_three,
-    row_four
-    ])
+    row_four,
+    row_five,
+    row_six
+])
 
 # Run the app
 if __name__ == '__main__':
