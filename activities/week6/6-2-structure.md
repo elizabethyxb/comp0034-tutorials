@@ -72,7 +72,7 @@ it. You need to be able to do this for some of the packages that you will use to
 1. Open `src/student/flask_paralympics/__init__.py`
 2. Add a function that must be named `create_app`. The code below is based on the `create_app()` function from
    the [Flask tutorial application setup](https://flask.palletsprojects.com/en/stable/tutorial/factory/#application-setup)
-   without the routes. The routes will be in a separate python module, currently the `paralympics_app.py` file.:
+   without the routes. The routes will be in a separate python module, currently the `routes.py` file.:
     ```python
     import os
 
@@ -136,7 +136,7 @@ You can change the database location to any other directory by changing the `SQL
 
 ## Step 3: Modify the current app code to use the create_app() function
 
-Now that the app is created in the `create_ap()` function, you need to modify `paralympics_app.py` app to use this.
+Now that the app is created in the `create_ap()` function, you need to modify the file where you first created the app (e.g. `paralympics_app.py`) to use this.
 
 A commonly used approach is to define the routes and assign them to a
 Blueprints. [Blueprints](https://flask.palletsprojects.com/en/stable/blueprints/) are a concept or pattern in Flask to
@@ -149,7 +149,7 @@ An alternative to using a Blueprint is to use Flask's `current_app` object to ac
 using `import current_app as app` accesses the current app and names it `app` so that you don't have to change the
 routes which already refer to `@app.`.
 
-This approach uses the Blueprint pattern. Change the contents of `paralympics.py` in the following ways:
+This approach uses the Blueprint pattern. Change the contents of `routes.py` in the following ways:
 
 1. Add the import `from flask import Blueprint`
 2. Remove the import `from flask import Flask`
@@ -182,7 +182,7 @@ function.
 # Put the following code inside the create_app function after the code to ensure the instance folder exists
 with app.app_context():
     # Register the blueprint
-    from student.flask_paralympics.paralympics import main
+    from student.flask_paralympics.routes import main
 
     app.register_blueprint(main)
 ```
