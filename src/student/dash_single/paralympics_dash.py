@@ -1,5 +1,5 @@
 # Imports for Dash and Dash.html
-from dash import Dash, html, dcc
+from dash import Dash, html, dcc, Input, Output
 import dash_bootstrap_components as dbc
 from student.dash_single.charts import line_chart, bar_gender, scatter_geo, go_map, card_fig, bubble_plot
 
@@ -28,7 +28,7 @@ row_two = dbc.Row([
         {"label": "Athletes", "value": "participants"},
     ],
     value="events",  # The default selection
-    id="dropdown-input",  # id uniquely identifies the element, will be needed later for callbacks
+    id="dropdown-category",  # id uniquely identifies the element, will be needed later for callbacks
 ),], width=4),
     dbc.Col(children=[html.Div(
     [
@@ -48,11 +48,11 @@ row_two = dbc.Row([
 
 row_three = dbc.Row([
     dbc.Col(children=[dcc.Graph(id="line-chart", figure=line_chart("sports")),], width=6),
-    dbc.Col(children=[dcc.Graph(id="bar_graph", figure=bar_gender("summer")),], width=6)
+    dbc.Col(children=[html.Div(id="bar-graph")], width=6)
 ])
 
 row_four = dbc.Row([
-    dbc.Col(children=[dcc.Graph(id="map_fig", figure=scatter_geo())], width=8),
+    dbc.Col(children=[dcc.Graph(id="map-fig", figure=scatter_geo())], width=8),
     dbc.Col(children=[dbc.Card([
     dbc.CardImg(src=app.get_asset_url("logos/2022_Beijing.jpg"), top=True),
     dbc.CardBody([
@@ -64,7 +64,8 @@ row_four = dbc.Row([
     ]),
 ],
     style={"width": "18rem"},
-)], width=4)
+    id="map-card")  # Added id here
+], width=4)
 ])
 
 
@@ -76,7 +77,37 @@ row_five = dbc.Row([
 row_six = dbc.Row([
     dbc.Col(children=[dcc.Graph(id="bubble_plot", figure=bubble_plot())], width=8),
     ])
-    
+
+ #Callback for map
+@app.callback(
+    Output(component_id='map-card', component_property='children'),
+    Input(component_id='map-fig', component_property='hoverData')
+)
+
+def display_card(hover_data):
+    if hover_data is not None:
+        text = hover_data['points'][0]['hovertext']
+        if text is not None:
+            return card_fig(text, app) # Returning a list of components works in Dash
+
+# Callback for bar chart and dropdown 
+@app.callback(
+    Output(component_id='bar-graph', component_property='children'),
+    Input(component_id='checklist-input', component_property='value')
+)
+def update_bar_chart(features):
+    graphs = [dcc.Graph(figure=bar_gender(feature), id=f"bar-graph-{feature}") for feature in features]
+    return graphs  # Returning a list of components works in Dash
+
+# Callback for line chart
+@app.callback(
+    Output(component_id='line-chart', component_property='figure'),
+    Input(component_id='dropdown-category', component_property='value')
+)
+def update_line_chart(feature):
+    figure = line_chart(feature)
+    return figure
+
 # Add an HTML layout to the Dash app
 app.layout = dbc.Container([
     # Add an HTML div with the text 'Hello World'
