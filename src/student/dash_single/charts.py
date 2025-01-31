@@ -162,8 +162,10 @@ def go_map():
         return fig
     
 def card_fig(host_year, app):
-    host = host_year.split(' ')[0]
-    year = int(host_year.split(' ')[1])
+    # The last 4 digits are the year
+    year = host_year[-4:]# add code in the brackets to get a slice of the string
+    # Drop the last 5 digits (a space followed by the year) to the host city 
+    host = host_year[:-5]# add code in the brackets to get a slice of the string
 
     with resources.path("student.data", "paralympics.db") as path:
         # create database connection
