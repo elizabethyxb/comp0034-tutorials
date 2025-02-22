@@ -1,7 +1,7 @@
 # Page with the map and stats card
 import dash
 import dash_bootstrap_components as dbc
-from dash import html
+from dash import html, dcc
 
 # register the page in the app, this is the default page
 dash.register_page(__name__, name='Events', title='Events', path="/", )
@@ -11,6 +11,7 @@ layout = dbc.Container([
     dbc.Row([
         dbc.Col([
             html.H1("Event Details", id="event-h1"),
+            dcc.Link(href="google.com"),
             html.P(
                 "Event details. Select a marker on the map to display the event highlights and summary data.")
         ], width=12),

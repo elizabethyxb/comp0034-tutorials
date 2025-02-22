@@ -29,6 +29,7 @@ row_two = dbc.Row([
     ],
     value="events",  # The default selection
     id="dropdown-category",  # id uniquely identifies the element, will be needed later for callbacks
+    placeholder=None,
 ),], width=4),
     dbc.Col(children=[html.Div(
     [
@@ -48,7 +49,7 @@ row_two = dbc.Row([
 
 row_three = dbc.Row([
     dbc.Col(children=[dcc.Graph(id="line-chart", figure=line_chart("sports")),], width=6),
-    dbc.Col(children=[html.Div(id="bar-graph")], width=6)
+    dbc.Col(children=[html.Div(children=[], id="bar-graph")], width=6)
 ])
 
 row_four = dbc.Row([
@@ -96,7 +97,7 @@ def display_card(hover_data):
     Input(component_id='checklist-input', component_property='value')
 )
 def update_bar_chart(features):
-    graphs = [dcc.Graph(figure=bar_gender(feature), id=f"bar-graph-{feature}") for feature in features]
+    graphs = [html.Div(dcc.Graph(figure=bar_gender(feature), id=f"bar-graph-{feature}"), id="bar-div") for feature in features]
     return graphs  # Returning a list of components works in Dash
 
 # Callback for line chart
