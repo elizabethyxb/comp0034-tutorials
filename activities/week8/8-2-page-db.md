@@ -1,6 +1,4 @@
-from flask import render_template
-
-# Pages generated from data in a database
+# Example: Pages generated from data in a database
 
 For this activity you will modify the home page so that it lists all the paralympics with hyperlinks. When you click on
 a hyperlink, it should open a more detailed page about that paralympics.

@@ -179,7 +179,6 @@ def test_new_quiz_form_post_success(client):
     assert b'Quiz added!' in response.data
 
     # Check that the new quiz is in the database
-    from student.flask_paralympics.models import Quiz
     quiz = db_session.query(Quiz).filter(Quiz.quiz_name == "Test Quiz").first()
     assert quiz is not None
 ```

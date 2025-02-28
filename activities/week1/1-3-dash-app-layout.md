@@ -8,7 +8,7 @@ is copied from the [Dash tutorial](https://dash.plotly.com/tutorial).
 You can name the python file anything **except** `dash.py`. If you name it `dash.py` it will conflict with the Dash
 library and your app won't run.
 
-1. Run `src/student/dash_single/paralympics_dash.py`
+1. Run `dash_student/paralympics_dash.py`
 
    You may need to change the port number if you already have something running on the default port 8050
    e.g. 

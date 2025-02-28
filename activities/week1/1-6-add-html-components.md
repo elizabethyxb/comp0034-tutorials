@@ -91,7 +91,7 @@ For example to define responsive images using the image files in the `/assets` d
 ```python
 # Column 1 children
 # className="img-fluid" is a Bootstrap class and prevents the image spanning the next column
-html.Img(src=app.get_asset_url('line-chart-placeholder.png'), className="img-fluid"),
+html.Img(src=app.get_asset_url('event-chart-placeholder.png'), className="img-fluid"),
 
 # Column 2 children
 html.Img(src=app.get_asset_url('bar-chart-placeholder.png'), className="img-fluid"),
@@ -99,7 +99,7 @@ html.Img(src=app.get_asset_url('bar-chart-placeholder.png'), className="img-flui
 
 #### Row 4
 
-This row has:
+The third row has:
 
 - column 1: a map visualisation with markers for events. Add a placeholder image for now.
 - column 2: a card that displays details for a selected paralympic event, this will be dynamically generated when the

@@ -79,7 +79,7 @@ explained [here in the Dash documentation](https://dash.plotly.com/external-reso
 
 ### Internal style sheet
 
-There is no straight forward and documented method to do this in Dash.
+This is no straight forward and documented method to do this in Dash.
 
 ## Using open source external CSS in Dash
 
@@ -105,7 +105,7 @@ easier to apply to Dash. This is used in the COMP0034 tutorial activities.
 
 Dash bootstrap components has
 [themes](https://dash-bootstrap-components.opensource.faculty.ai/docs/themes/) that you can apply to achieve a
-particular look and feel.
+particular look and feel. These are particular implementation of the Bootstrap styles with colours and fonts.
 
 ## Activity: Add Dash Bootstrap Components styling to the paralympics app
 

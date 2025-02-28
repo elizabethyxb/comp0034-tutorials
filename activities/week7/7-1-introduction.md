@@ -5,7 +5,7 @@ This week's activities introduce a different method for working with a SQL datab
 You do not have to use SQLAlchemy in a Flask app, however it is a commonly used approach and is included in the course
 to give you experience of another way to access a database and experience of coding with Python classes.
 
-This week's activities are likely to take longer than 2 hours.
+This week's activities are likely to take longer than 2 hours to complete.
 
 If you prefer to continue using `sqlite3`, skip to activity 7.7.
 
@@ -56,7 +56,7 @@ data type for the Python class than is stored in the database table. The Python 
 functions).
 
 Many of the tutorials you will see relating to the use of Flask-SQLAlchemy store the code to define the Python classes
-in a module called `models.py`. This a convention, you do not have to name your module in this way.
+in a module called `models.py`. This is a convention, you do not have to name your module in this way.
 
 ### Code to interact with the database
 

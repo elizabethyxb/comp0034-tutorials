@@ -1,4 +1,4 @@
-# Content from 3rd party REST APIs
+# Example: Page with content from a 3rd party REST API
 
 An API is an application programming interface; it allows programmers to connect one software to another.
 APIs have methods that developers can access to do something.
