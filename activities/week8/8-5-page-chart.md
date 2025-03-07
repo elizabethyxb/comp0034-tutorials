@@ -1,4 +1,4 @@
-# Page with a chart
+# Example: Page with a chart
 
 The interactive charts you created in Dash require JavaScript for the browser-based user interactions. Most chart
 libraries for web apps use JavaScript.

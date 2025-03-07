@@ -142,7 +142,7 @@ the '#' symbol.
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('main.index') }}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link 1</a>
@@ -158,7 +158,7 @@ the '#' symbol.
 
 ### 3. Create an `index.html` to inherit the parent template
 
-`index.html` ia the name we will give to the home page template for the "/" route in the Paralympics app.
+`index.html` is the name we will give to the home page template for the "/" route in the Paralympics app.
 
 `index.html` inherits from `base.html` (or whatever name you saved it as) so all you need to provide is the values for
 the **block**s.
@@ -184,7 +184,7 @@ Modify `routes.py` so the "/" returns `render_template('index.html')`.
 
 ### 5. Run the Flask app
 
-Run the Flask app e.g. `flask --app student.paralympics_flask run --debug`
+Run the Flask app e.g. `flask --app src.student.flask_paralympics run --debug`
 
 You should see a page with a nav bar that follows Bootstrap styling.
 

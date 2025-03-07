@@ -14,14 +14,17 @@ since this was written.
 
 Please do not apply authentication in your coursework unless it is fundamental to how your app works, for example if you
 need to know an identity to be able to complete features such as customising data and saving those customisations.
-It is very widely documented with readily available boilerplate code, and so is not likely to improve the marks awarded
-for your app.
+It is widely documented with readily available boilerplate code.
 
 A few tutorial links that cover authentication:
 
 - [Miguel Grinberg's mega tutorial episode on login](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins)
 - [Flask Friday - YouTube](https://www.youtube.com/watch?v=bxyaJ8w_wak)
 - [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
+
+There are numerous libraries for authentication. A popular library for apps with pages/views is Flask-Login. If you have
+developed a REST API app then consider a JSON Web Token approach instead using libraries such as Flask-JWT-Extended or
+PyJWT.
 
 ## REST API
 

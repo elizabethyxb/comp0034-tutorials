@@ -25,7 +25,7 @@ To specify that a route accepts more than one method you add them like this:
 @app.route('/login', methods=['GET', 'POST'])
 ```
 
-Alternatively there are shorthand variants for each HTTP method:
+Alternatively, there are shorthand variants for each HTTP method:
 
 ```python
 @app.get('/login')
@@ -36,7 +36,7 @@ Alternatively there are shorthand variants for each HTTP method:
 
 Refer to the [documentation](https://flask.palletsprojects.com/en/stable/quickstart/#http-methods) for further info.
 
-When you enter a URL in a browser it is treated as a GET request. To submit URLs that are POST or other type of requests
+When you enter a URL in a browser, it is treated as a GET request. To submit URLs that are POST or other type of requests
 will need a method that allows you to specify the HTTP method type, such as using
 the [HTTPie python library](https://github.com/httpie/cli) or trying the developer tools in Chrome:
 

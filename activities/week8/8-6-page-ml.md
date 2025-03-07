@@ -1,4 +1,4 @@
-# Page that returns a prediction from a machine learning model
+# Example: Page that returns a prediction from a machine learning model
 
 For this you need to already know how to create a machine learning model as this is not taught in the course.
 

@@ -94,4 +94,4 @@ Run the Flask app and make sure it still runs.
 
 You will not see any visible difference in the pages.
 
-[Next activity](7-3-classes.md)
+[Next activity](7-3-classes-models.md)

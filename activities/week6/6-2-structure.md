@@ -136,8 +136,9 @@ You can change the database location to any other directory by changing the `SQL
 
 ## Step 3: Modify the current app code to use the create_app() function
 
-Now that the app is created in the `create_ap()` function, you need to modify the file where you first created the app (
-e.g. `paralympics_app.py`) to use this.
+
+Now that the app is created in the `create_app()` function, you need to modify the file where you first created the app (e.g. `paralympics_app.py`) to use this.
+
 
 A commonly used approach is to define the routes and assign them to a
 Blueprint. [Blueprints](https://flask.palletsprojects.com/en/stable/blueprints/) are a concept or pattern in Flask to
@@ -195,7 +196,7 @@ see [Patrick Kennedy's blog](https://testdriven.io/blog/flask-contexts-advanced/
 Check that you can run the app modifying the command to use just the package name 'student.flask_paralympics':
 
 ```terminal
-flask --app student.flask_paralympics run --debug
+flask --app src.student.flask_paralympics run --debug
 ```
 
 Flask finds and recognises the `create_app()` function as it is in the `__init__.py` of the student.flask_paralympics

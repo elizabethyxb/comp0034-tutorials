@@ -1,6 +1,4 @@
-from flask import render_template
-
-# Using forms on pages
+# Example: Page that uses a form
 
 Forms in web pages provide a structured way for users to input data direct, allowing applications to collect and store
 user information.

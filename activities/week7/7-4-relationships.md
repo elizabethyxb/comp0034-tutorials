@@ -77,7 +77,7 @@ from typing import List
 from sqlalchemy import ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from student.flask_paraparalympics import db
+from src.student.flask_paralympics import db
 
 
 class Event(db.Model):
