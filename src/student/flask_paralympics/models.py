@@ -4,12 +4,12 @@ Move this file to the flask_paralympics package for activity 7.3
 The 'db' parameter is defined during activity 7.2.
 
 Complete the code for the quiz tables at the end of the models.py file."""
-from typing import List
+from typing import List, Optional
 
-from sqlalchemy import ForeignKey, Integer, String, Text
+from sqlalchemy import ForeignKey, Integer, String, Text, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from tutor.student import db
+from student.flask_paralympics import db
 
 
 # Note: db.Model is the declarative base class for SQLAlchemy that was defined in the __init__.py file
@@ -31,7 +31,7 @@ class Event(db.Model):
     host_events: Mapped[List["HostEvent"]] = relationship(back_populates="event")
     disability_events: Mapped[List["DisabilityEvent"]] = relationship(back_populates="event")
     medal_results: Mapped[List["MedalResult"]] = relationship(back_populates="event")
-    questions: Mapped[List["Question"]] = relationship(back_populates="event")
+    question: Mapped[List["Question"]] = relationship(back_populates="event")
     # one-to-one relationship:
     participants: Mapped["Participants"] = relationship(back_populates="event")
 
@@ -140,20 +140,60 @@ class MedalResult(db.Model):
 
 
 class Quiz(db.Model):
-    pass
+    __tablename__ = 'quiz'
 
+    quiz_id = mapped_column(Integer, primary_key=True)
+    quiz_name = mapped_column(Text, nullable=False)
+    date = mapped_column(Text)
+
+    # Relationships
+    quiz_questions: Mapped[List["QuizQuestion"]] = relationship(back_populates="quiz")
+    student_response: Mapped[List["StudentResponse"]] = relationship(back_populates="quiz")
 
 class Question(db.Model):
-    pass
+    __tablename__ = 'question'
+
+    question_id = mapped_column(Integer, primary_key=True)
+    question = mapped_column(Text, nullable=False)
+    event_id = mapped_column(Integer, ForeignKey('event.event_id'))
+
+    # Relationships
+    event: Mapped["Event"] = relationship(back_populates="question")
+    answer_choice: Mapped[List["AnswerChoice"]] = relationship(back_populates="question")
+    quiz_questions: Mapped[List["QuizQuestion"]] = relationship(back_populates="question")
 
 
 class AnswerChoice(db.Model):
-    pass
+    __tablename__ = 'answer_choice'
+
+    ac_id = mapped_column(Integer, primary_key=True)
+    question_id = mapped_column(Integer, ForeignKey('question.question_id'))
+    choice_text = mapped_column(Text, nullable=False)
+    choice_value = mapped_column(Integer)
+    is_correct = mapped_column(Boolean)
+
+    # Relationships
+    question: Mapped[List["Question"]] = relationship(back_populates="answer_choice")
 
 
 class QuizQuestion(db.Model):
-    pass
+    __tablename__ = 'quiz_question'
 
+    quiz_id = mapped_column(Integer, ForeignKey('quiz.quiz_id'), primary_key=True)
+    question_id = mapped_column(Integer, ForeignKey('question.question_id'), primary_key=True)
+
+    # Relationships
+    quiz: Mapped["Quiz"] = relationship(back_populates="quiz_questions")
+    question: Mapped["Question"] = relationship(back_populates="quiz_questions")
 
 class StudentResponse(db.Model):
-    pass
+    __tablename__ = 'student_response'
+    
+    response_id = mapped_column(Integer, primary_key=True)
+    student_email = mapped_column(Text, nullable=False)
+    score = mapped_column(Integer)
+    quiz_id = mapped_column(Integer, ForeignKey('quiz.quiz_id'))
+
+    # Relationships
+    quiz: Mapped["Quiz"] = relationship(back_populates="student_response")
+

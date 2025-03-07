@@ -9,8 +9,8 @@ import pandas as pd
 from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 
-from tutor.flask_para_t import db
-from tutor.flask_para_t.models import Country, Disability, DisabilityEvent, Event, Host, HostEvent, MedalResult, \
+from student.flask_paralympics import db
+from student.flask_paralympics.models import Country, Disability, DisabilityEvent, Event, Host, HostEvent, MedalResult, \
     Participants
 
 
@@ -196,7 +196,7 @@ def add_all_data():
     """Adds all the data.
     """
     # Specifies the path to the data file
-    data_path = resources.files("tutor.data").joinpath("paralympics.xlsx")
+    data_path = resources.files("student.data").joinpath("paralympics.xlsx")
 
     # Read data and create pandas dataframes
     events_df = pd.read_excel(data_path, sheet_name='events')
