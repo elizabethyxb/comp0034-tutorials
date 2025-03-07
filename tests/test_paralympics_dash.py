@@ -4,8 +4,25 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver import ActionChains
+import pytest
 
-def test_server_live(dash_duo):
+@pytest.fixture(autouse=True)
+def start_app(dash_duo):
+    """ Pytest fixture to start the Dash app in a threaded server.
+    This is a function-scoped fixture.
+    Automatically used by all tests in this module.
+    """
+    app_file_loc = "student.dash_single.paralympics_dash"
+    app = import_app(app_file_loc)
+    yield dash_duo.start_server(app)
+
+
+@pytest.fixture()
+def app_url(start_app, dash_duo):
+    """ Pytest fixture for the URL of the running Dash app. """
+    yield dash_duo.server_url
+
+def test_server_live(app_url):
     """
     GIVEN the app is running
     WHEN an HTTP request to the home page is made
@@ -13,18 +30,15 @@ def test_server_live(dash_duo):
     """
 
     # Start the app in a server
-    app = import_app(app_file="student.dash_single.paralympics_dash")
-    dash_duo.start_server(app)
 
     # Delay to wait 2 seconds for the page to load
-    dash_duo.driver.implicitly_wait(2)
+    #dash_duo.driver.implicitly_wait(2)
 
     # Get the url for the web app root
     # You can print this to see what it is e.g. print(f'The server url is {url}')
-    url = dash_duo.driver.current_url
-
+    
     # Requests is a python library and here is used to make an HTTP request to the sever url
-    response = requests.get(url)
+    response = requests.get(app_url)
 
     # Finally, use the pytest assertion to check that the status code in the HTTP response is 200
     assert response.status_code == 200
