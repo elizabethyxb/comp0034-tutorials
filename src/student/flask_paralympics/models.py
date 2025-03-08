@@ -28,12 +28,12 @@ class Event(db.Model):
     url = mapped_column(Text)
 
     # Relationships - one-to-many:
-    host_events: Mapped[List["HostEvent"]] = relationship(back_populates="event")
-    disability_events: Mapped[List["DisabilityEvent"]] = relationship(back_populates="event")
-    medal_results: Mapped[List["MedalResult"]] = relationship(back_populates="event")
-    question: Mapped[List["Question"]] = relationship(back_populates="event")
+    host_events: Mapped[List["HostEvent"]] = relationship(back_populates="event", cascade="all, delete", passive_deletes=True)
+    disability_events: Mapped[List["DisabilityEvent"]] = relationship(back_populates="event", cascade="all, delete", passive_deletes=True)
+    medal_results: Mapped[List["MedalResult"]] = relationship(back_populates="event", cascade="all, delete", passive_deletes=True)
+    question: Mapped[List["Question"]] = relationship(back_populates="event", cascade="all, delete", passive_deletes=True)
     # one-to-one relationship:
-    participants: Mapped["Participants"] = relationship(back_populates="event")
+    participants: Mapped["Participants"] = relationship(back_populates="event", cascade="all, delete", passive_deletes=True)
 
 
 class Country(db.Model):
@@ -57,8 +57,8 @@ class Country(db.Model):
     member_type = mapped_column(Text)
     notes = mapped_column(Text)
     # Relationships
-    medal_results: Mapped[List["MedalResult"]] = relationship(back_populates="country")
-    hosts: Mapped[List["Host"]] = relationship(back_populates="country")
+    medal_results: Mapped[List["MedalResult"]] = relationship(back_populates="country", cascade="all, delete", passive_deletes=True)
+    hosts: Mapped[List["Host"]] = relationship(back_populates="country", cascade="all, delete", passive_deletes=True)
 
 
 class Disability(db.Model):
@@ -67,14 +67,14 @@ class Disability(db.Model):
     disability_id = mapped_column(Integer, primary_key=True)
     category = mapped_column(Text, nullable=False)
     # Relationship to the DisabilityEvent table. back_populates takes the name of the relationship that is defined in the DisabilityClass
-    disability_events: Mapped[List["DisabilityEvent"]] = relationship(back_populates="disability")
+    disability_events: Mapped[List["DisabilityEvent"]] = relationship(back_populates="disability", cascade="all, delete", passive_deletes=True)
 
 
 class DisabilityEvent(db.Model):
     __tablename__ = 'disability_event'
 
-    event_id: Mapped[int] = mapped_column(ForeignKey('event.event_id'), primary_key=True)
-    disability_id: Mapped[int] = mapped_column(ForeignKey('disability.disability_id'), primary_key=True)
+    event_id: Mapped[int] = mapped_column(ForeignKey('event.event_id', ondelete="CASCADE"), primary_key=True)
+    disability_id: Mapped[int] = mapped_column(ForeignKey('disability.disability_id', ondelete="CASCADE"), primary_key=True)
 
     # Relationships to the parent classes: Event and Disability
     # back_populates takes the name of the relationships that is defined in the parent classes (same name was used in both)
@@ -86,11 +86,11 @@ class Host(db.Model):
     __tablename__ = 'host'
 
     host_id = mapped_column(Integer, primary_key=True)
-    country_code = mapped_column(ForeignKey('country.code'))
+    country_code = mapped_column(ForeignKey('country.code', ondelete="CASCADE"))
     host = mapped_column(Text, nullable=False)
 
     # Relationships
-    host_events: Mapped[List["HostEvent"]] = relationship(back_populates="host")
+    host_events: Mapped[List["HostEvent"]] = relationship(back_populates="host", cascade="all, delete", passive_deletes=True)
     country: Mapped["Country"] = relationship(back_populates="hosts")
 
 
@@ -98,11 +98,11 @@ class HostEvent(db.Model):
     __tablename__ = 'host_event'
 
     host_id = mapped_column(Integer,
-                            ForeignKey('host.host_id', onupdate="CASCADE", ondelete="NO ACTION"),
+                            ForeignKey('host.host_id', onupdate="CASCADE", ondelete="CASCADE"),
                             primary_key=True
                             )
     event_id = mapped_column(Integer,
-                             ForeignKey('event.event_id', onupdate="CASCADE", ondelete="NO ACTION"),
+                             ForeignKey('event.event_id', onupdate="CASCADE", ondelete="CASCADE"),
                              primary_key=True
                              )
     # Relationships
@@ -114,7 +114,7 @@ class Participants(db.Model):
     __tablename__ = 'participants'
 
     participant_id = mapped_column(Integer, primary_key=True)
-    event_id = mapped_column(Integer, ForeignKey('event.event_id'))
+    event_id = mapped_column(Integer, ForeignKey('event.event_id', ondelete="CASCADE"))
     participants_m = mapped_column(Integer)
     participants_f = mapped_column(Integer)
     participants = mapped_column(Integer)
@@ -127,8 +127,8 @@ class MedalResult(db.Model):
     __tablename__ = 'medal_result'
 
     result_id = mapped_column(Integer, primary_key=True)
-    event_id = mapped_column(Integer, ForeignKey('event.event_id'))
-    country_code = mapped_column(Text, ForeignKey('country.code'))
+    event_id = mapped_column(Integer, ForeignKey('event.event_id', ondelete="CASCADE"))
+    country_code = mapped_column(Text, ForeignKey('country.code', ondelete="CASCADE"))
     rank = mapped_column(Integer)
     gold = mapped_column(Integer)
     silver = mapped_column(Integer)
@@ -147,44 +147,44 @@ class Quiz(db.Model):
     date = mapped_column(Text)
 
     # Relationships
-    quiz_questions: Mapped[List["QuizQuestion"]] = relationship(back_populates="quiz")
-    student_response: Mapped[List["StudentResponse"]] = relationship(back_populates="quiz")
+    quiz_questions: Mapped[List["QuizQuestion"]] = relationship(back_populates="quiz", cascade="all, delete")
+    student_response: Mapped[List["StudentResponse"]] = relationship(back_populates="quiz", cascade="all, delete")
 
 class Question(db.Model):
     __tablename__ = 'question'
 
     question_id = mapped_column(Integer, primary_key=True)
     question = mapped_column(Text, nullable=False)
-    event_id = mapped_column(Integer, ForeignKey('event.event_id'))
+    event_id = mapped_column(Integer, ForeignKey('event.event_id', ondelete="CASCADE"))
 
     # Relationships
     event: Mapped["Event"] = relationship(back_populates="question")
-    answer_choice: Mapped[List["AnswerChoice"]] = relationship(back_populates="question")
-    quiz_questions: Mapped[List["QuizQuestion"]] = relationship(back_populates="question")
+    answer_choice: Mapped[List["AnswerChoice"]] = relationship(back_populates="question", cascade="all, delete")
+    quiz_questions: Mapped[List["QuizQuestion"]] = relationship(back_populates="question", cascade="all, delete")
 
 
 class AnswerChoice(db.Model):
     __tablename__ = 'answer_choice'
 
     ac_id = mapped_column(Integer, primary_key=True)
-    question_id = mapped_column(Integer, ForeignKey('question.question_id'))
+    question_id = mapped_column(Integer, ForeignKey('question.question_id', ondelete="CASCADE"))
     choice_text = mapped_column(Text, nullable=False)
     choice_value = mapped_column(Integer)
     is_correct = mapped_column(Boolean)
 
     # Relationships
-    question: Mapped[List["Question"]] = relationship(back_populates="answer_choice")
+    question: Mapped["Question"] = relationship(back_populates="answer_choice")
 
 
 class QuizQuestion(db.Model):
     __tablename__ = 'quiz_question'
 
-    quiz_id = mapped_column(Integer, ForeignKey('quiz.quiz_id'), primary_key=True)
-    question_id = mapped_column(Integer, ForeignKey('question.question_id'), primary_key=True)
+    quiz_id = mapped_column(Integer, ForeignKey('quiz.quiz_id', ondelete="CASCADE"), primary_key=True)
+    question_id = mapped_column(Integer, ForeignKey('question.question_id', ondelete="CASCADE"), primary_key=True)
 
     # Relationships
-    quiz: Mapped["Quiz"] = relationship(back_populates="quiz_questions")
-    question: Mapped["Question"] = relationship(back_populates="quiz_questions")
+    quiz: Mapped["Quiz"] = relationship("Quiz", back_populates="quiz_questions", cascade="all, delete")
+    question: Mapped["Question"] = relationship("Question", back_populates="quiz_questions", cascade="all, delete")
 
 class StudentResponse(db.Model):
     __tablename__ = 'student_response'
@@ -192,8 +192,8 @@ class StudentResponse(db.Model):
     response_id = mapped_column(Integer, primary_key=True)
     student_email = mapped_column(Text, nullable=False)
     score = mapped_column(Integer)
-    quiz_id = mapped_column(Integer, ForeignKey('quiz.quiz_id'))
+    quiz_id = mapped_column(Integer, ForeignKey('quiz.quiz_id', ondelete="CASCADE"))
 
     # Relationships
-    quiz: Mapped["Quiz"] = relationship(back_populates="student_response")
+    quiz: Mapped["Quiz"] = relationship("Quiz", back_populates="student_response")
 

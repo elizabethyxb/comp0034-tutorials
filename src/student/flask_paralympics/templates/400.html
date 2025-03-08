@@ -1,0 +1,6 @@
+{% extends "layout.html" %}
+{% block title %}Not found error{% endblock %}
+{% block content %}
+    <h1>Sorry, this page wasn't found.</h1>
+    <p><a href="{{ url_for('main.index') }}">go back to the home page</a>
+{% endblock %}

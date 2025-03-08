@@ -3,6 +3,9 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+import logging
+from logging.config import dictConfig
+from flask import render_template
 
 # Initialise an instance of a SQLAlchemy object
 class Base(DeclarativeBase):
@@ -13,8 +16,32 @@ db = SQLAlchemy(model_class=Base)
 
 def create_app(test_config=None):
      # create the Flask app
+    dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers':
+        {'wsgi': {
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://flask.logging.wsgi_errors_stream',
+            'formatter': 'default'
+        },
+            "file": {
+                "class": "logging.FileHandler",
+                "filename": "flask.log",
+                "formatter": "default",
+            },
+        },
+    "root": {"level": "DEBUG", "handlers": ["wsgi", "file"]},
+})
+    
     app = Flask(__name__, instance_relative_config=True)
+    app.register_error_handler(500, internal_server_error)
+    app.register_error_handler(404, not_found_error)
      # configure the Flask app (see later notes on how to generate your own SECRET_KEY)
+    app.logger.info(f"The app is starting...")
+    app.logger.debug(f"Debugging mode is on")
     app.config.from_mapping(
          SECRET_KEY='08LVvxQkgjg1_0KJy_ILXA',
          # Set the location of the database file called paralympics.sqlite which will be in the app's instance folder
@@ -69,3 +96,10 @@ def create_app(test_config=None):
         app.register_blueprint(main)
 
     return app
+
+
+def internal_server_error(e):
+  return render_template('500.html'), 500
+
+def not_found_error(e):
+    return render_template('400.html'), 404

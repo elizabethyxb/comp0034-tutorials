@@ -17,5 +17,24 @@
         </div>
         <!-- The following is the bootstrap JavaScript which is needed for some of the Bootstrap features -->
         <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+        <!-- Add to the body section of your base/layout template -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class=flashes>
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        {% set category = 'text-danger' %}
+                    {% endif %}
+                    {% if category == 'success' %}
+                        {% set category = 'text-success' %}
+                    {% endif %}
+                    <li class="{{ category }}">{{ message }}</li>
+                    
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% endwith %}
+    
     </body>
 </html>
