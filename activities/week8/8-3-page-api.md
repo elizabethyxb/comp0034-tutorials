@@ -5,7 +5,7 @@ APIs have methods that developers can access to do something.
 
 A REST API is one that conforms to the REST architecture or pattern. These use the HTTP request/response method and
 return data in a structured format, often in JSON format. You can then use the data received in HTTP response in your
-own app.https://www.contextualwebsearch.com/
+own app.
 
 There are many published REST APIs, and while many are free they often require you to register and obtain an API key.
 To find one try:
@@ -26,8 +26,8 @@ the [news stories](https://github.com/HackerNews/API?tab=readme-ov-file#new-top-
 
 This returns a list of item ids.
 
-A subsequent call to the item id using `https://hacker-news.firebaseio.com/v0/item/<itemid>.json` returns JSON in the
-following structure for each news article:
+A subsequent call passes the item id to `https://hacker-news.firebaseio.com/v0/item/<itemid>.json` which returns JSON in
+the following structure for each news article:
 
 ```JSON
 {
@@ -50,17 +50,17 @@ following structure for each news article:
 
 The general steps for a Flask route that gets data from a REST API and uses it in an HTML page are:
 
-- Submit an HTTP request to the API. A popular Python package for this is `requests` which is part of the core Python
-  library so you don't need to install it. The format of the query URL will depend on API and should be explained in
-  their documentation.
-- The result of the request will be a HTTP response that has data attached. The data is typically in JSON format. The
+- Submit an HTTP request to the API. A popular Python package for this is `requests`. Requests is part of the core
+  Python library so you can import it without needing to install it. The format of the query URL will depend on the API
+  and should be explained in their documentation.
+- The result of the request will be an HTTP response that has data attached. The data is typically in JSON format. The
   format depends on the API and again should be explained in their documentation.
 - Get the JSON content from the HTTP response.
 - Pass the JSON to the Jinja template. You may need to manipulate the JSON in some way if it is not exactly what you
   want.
 - Access the JSON in the template.
 
-## Create a route for the paralympics app
+### Route
 
 Add a route to the paralympics app to get the top stories:
 
@@ -88,7 +88,7 @@ def get_news():
     return render_template('news.html', stories=stories)
 ```
 
-## Create a news page template
+### Template
 
 Create a template, `news.html`.
 
@@ -108,6 +108,8 @@ Access the JSON values for the url and the title and display as hyperlinks on th
 
 ## Try it yourself
 
-Find an API from one of the links above and try to add a page with content received from the API.
+1. Find an API from one of the links above and try to add a page with content received from the API.
+2. Investigate [Flask async](https://flask.palletsprojects.com/en/stable/async-await/) and see of you can improve the
+   page performance with more than 3 stories.
 
 [Next activity](8-4-page-form.md)

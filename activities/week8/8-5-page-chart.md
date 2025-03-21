@@ -8,7 +8,7 @@ For the coursework, only Python code is assessed so please do not spend time wri
 You can display charts created in plotly in a browser page. It is also possible to embed your Dash app as a route in
 Flask ([see 8-8](8-8-other.md)).
 
-To create a plotly or chart in a page you need:
+To create a plotly chart in a page you need:
 
 1. Code that creates a chart
 2. A template that displays the chart
@@ -59,7 +59,7 @@ def display_chart():
 
 Note: if you are using sqlite3, add a line before `line_fig = ` to create the db instance using `db = get_db()`.
 
-## Create a Jinja page template
+## Template
 
 The chart template needs to have code that will display a plotly chart.
 

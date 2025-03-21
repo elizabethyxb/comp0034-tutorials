@@ -21,16 +21,16 @@ The general approach to create a form that will capture data from a user using F
 3. Create a route that when a GET request is made displays the form, and on POST (form submission) checks the fields are
    valid and if they are saves the data to the database.
 
-## Create the form class
+## Form class
 
 To create a form class use a Flask-WTF form class.
 
 A quiz has the following attributes:
 
 ```text
-"quiz_id"	PK INTEGER
-"quiz_name"	TEXT NOT NULL
-"close_date" TEXT
+"quiz_id"       PRIMARY KEY, INTEGER
+"quiz_name"     TEXT, NOT NULL
+"close_date"    TEXT
 ```
 
 The form should have a field that matches each of the fields needed for the database table (except the `quiz_id` as this
@@ -132,7 +132,7 @@ For example:
 
 ## Route
 
-The route needs to receive two types of request:
+The route needs to receive two types of HTTP request:
 
 - GET: When the page is first loaded, this returns and empty form
 - POST: When the form is submitted
@@ -158,16 +158,16 @@ def quiz():
 
 ### POST
 
-[How to get the form data](https://wtforms.readthedocs.io/en/3.1.x/crash_course/#how-forms-get-data)
-
 The POST route logic is:
 
 1. Check the form passes the validation that was set in the QuizForm class
     - If not, render the template for the quiz page and pass the form to it with the current values (you can get the
       current values from the form in the HTTP request using `request.form`)
 2. If yes, get the values from the form and try to save the quiz to the database
-    - For SQLAlchemy: Create a quiz object, add and commit.
-    - For sqlite3: Construct a SQL statement and commit.
+
+    - Read [how to get the data from the form](https://wtforms.readthedocs.io/en/3.1.x/crash_course/#how-forms-get-data).
+    - For SQLAlchemy: Use the data to create a quiz object, add and commit.
+    - For sqlite3: Construct a SQL statement with values from the form, and commit.
 3. If the quiz is saved, flash a success message and redirect to the route for the quiz page. This introduces two new
    Flask functions:
 

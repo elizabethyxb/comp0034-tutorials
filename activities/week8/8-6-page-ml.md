@@ -6,6 +6,8 @@ Code to generate a simple prediction of the total medals for a country is in `pl
 
 For the Flask activity you can use the `model.pkl` file that has been saved in the `data` package.
 
+If you want to try this activity you will need install joblib and scikit-learn: `pip install joblib scikit-learn`
+
 ## Function to get a prediction
 You need to be able to get a prediction using the model.
 
@@ -44,7 +46,9 @@ def make_prediction(year, team):
 
 ## Form
 
-Create a form that contains 2 fields:
+Create a form to allow the user to enter the data needed to get a prediction.
+
+The form contains 2 fields:
 
 - year: the year to predict the total medals for
 - team: a list of team names from the Country table in the database
@@ -67,7 +71,7 @@ class PredictionForm(FlaskForm):
     team = QuerySelectField('Team', query_factory=teams, get_label='name', allow_blank=True, validators=[DataRequired()])
 ```
 
-This version should work for students not using SQLAlchemy, or who use SQLAlchemy but don't want to use the QuerySelectField:
+An alternative version using sqlite3 instead of SQLAlchemy:
 
 ```python
 from flask_wtf import FlaskForm
@@ -75,10 +79,17 @@ from wtforms import IntegerField
 from wtforms.fields.choices import SelectField
 from wtforms.validators import DataRequired
 
+from paralympics.db import get_db
 
 class PredictionForm(FlaskForm):
     year = IntegerField('Year', validators=[DataRequired()])
-    team = SelectField('Team', choices=[], validators=[DataRequired()])
+    team = SelectField('Team', validators=[DataRequired()])
+
+    def set_choices(self):
+        db = get_db()
+        self.team.choices = [(row['name'], row['name']) for row in
+                             db.execute('SELECT name FROM country WHERE member_type != "dissolved"').fetchall()]
+        return self
 ```
 
 ## Page template
@@ -113,12 +124,22 @@ The route needs to:
 - on GET show an empty prediction form
 - on POST take the value form the form and get a prediction
 
-The route to GET the form is as you just created for the Quiz page:
+The route to GET the form is:
 
 ```python
 @main.route('/predict', methods=['GET', 'POST'])
 def predict():
     form = PredictionForm()
+    return render_template("prediction.html", form=form)
+```
+
+Note that if you are using sqlite3 istead of Flask-SQLAlchemy then you need to add the choices to the dropdown:
+
+```python
+@main.route('/predict', methods=['GET', 'POST'])
+def predict():
+    form = PredictionForm()
+    form.set_choices()
     return render_template("prediction.html", form=form)
 ```
 
@@ -132,10 +153,7 @@ The POST route requires:
 The code might look like this:
 
 ```python
-import importlib.resources
-
 import joblib
-import pandas as pd
 from flask import render_template
 from student.flask_paralympics.forms import PredictionForm
 

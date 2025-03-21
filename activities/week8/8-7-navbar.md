@@ -1,4 +1,4 @@
-# Finishing touches
+# Example: Add page links to the navbar
 
 ## Remove unused routes
 

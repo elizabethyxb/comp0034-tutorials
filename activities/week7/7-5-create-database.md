@@ -1,3 +1,6 @@
+# Change to be made:
+- on update / on cascade see https://docs.sqlalchemy.org/en/20/core/constraints.html#on-update-and-on-delete
+
 # Creating the database with SQLAlchemy
 
 ## Introduction

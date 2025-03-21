@@ -36,7 +36,7 @@ def index():
     """ Returns the home page."""
     # Query the database to get all the events and arrange in date order
     query =  # select Event.event_id Event.type and Event.year and Host.host from Event join to HostEvent using relationship Event.host_events join to HostEvent to Host using relationship HostEvent.host
-    events = db.session.execute(query).scalars()
+    events = db.session.execute(query).all()
     # Events in this instance is Python objects
     return render_template('events.html', events=events)
 ```
